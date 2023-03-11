@@ -9,7 +9,6 @@ use App\Service\TimeManagement\TimeSlotService;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Psy\Util\Json;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 class TimeSlotController extends Controller
@@ -20,7 +19,7 @@ class TimeSlotController extends Controller
      * @param CustomValidator $validator
      * @return JsonResponse
      */
-    public function create(Request $request, CustomValidator $validator, TimeSlotService $timeSlotService)
+    public function create(Request $request, CustomValidator $validator, TimeSlotService $timeSlotService): JsonResponse
     {
         $requestData = $validator->validate([
             'user_id'    => ['required', 'exists:App\Models\User,id'],
@@ -42,7 +41,7 @@ class TimeSlotController extends Controller
         ]);
     }
 
-    public function delete(int $id)
+    public function delete(int $id): JsonResponse
     {
         $timeSlot = TimeSlot::query()->find($id);
         $timeSlot->delete();
@@ -52,7 +51,7 @@ class TimeSlotController extends Controller
         ]);
     }
 
-    public function update(Request $request, int $id, CustomValidator $validator)
+    public function update(Request $request, int $id, CustomValidator $validator): JsonResponse
     {
         $requestData = $validator->validate([
             'user_id'    => 'required',
@@ -71,7 +70,7 @@ class TimeSlotController extends Controller
         ]);
     }
 
-    public function getAllSlots(Request $request, CustomValidator $validator)
+    public function getAllSlots(Request $request, CustomValidator $validator): JsonResponse
     {
         $requestData = $validator->validate([
             'schedule_id' => ['required', 'exists:App\Models\Schedule,id'],

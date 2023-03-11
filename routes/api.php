@@ -20,5 +20,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/time_slot', [TimeSlotController::class, 'create']);
-Route::get('/time_slot', [TimeSlotController::class, 'getAllSlots']);
+Route::post('/time_slot/all', [TimeSlotController::class, 'getAllSlots']);
 

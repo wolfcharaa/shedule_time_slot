@@ -71,8 +71,22 @@ class TimeSlotController extends Controller
         ]);
     }
 
-    public function getAllSlots() {
-        return new JsonResponse(TimeSlot::all());
+    public function getAllSlots(Request $request, CustomValidator $validator)
+    {
+        $requestData = $validator->validate([
+            'schedule_id' => ['required', 'exists:App\Models\Schedule,id'],
+            'date'        => ['required', 'date']
+        ]);
+        return new JsonResponse(TimeSlot::query()
+            ->where('schedule_id', '=', $requestData['schedule_id'])
+            ->where('date',        '=', $requestData['date'])
+            ->select([
+                'date',
+                'start_time',
+                'end_time'
+            ])
+            ->orderBy('date', 'DESC')
+            ->get());
     }
 
 }

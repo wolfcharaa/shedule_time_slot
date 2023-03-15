@@ -13,6 +13,8 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  * @property Carbon $date
  * @property string $start_time
+ * @property string $title
+ * @property string $description
  * @property string $end_time
  * @property-read Schedule|null $schedule
  * @property int $schedule_id
@@ -23,14 +25,21 @@ class TimeSlot extends Model
 
     protected $fillable = [
         'id',
-        'date',
+        'user_id',
         'schedule_id',
+        'title',
         'start_time',
         'end_time',
+        'description'
     ];
 
     public function schedule(): BelongsTo
     {
         return $this->belongsTo(Schedule::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

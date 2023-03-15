@@ -17,18 +17,18 @@ class TimeSlotService
 
     public function canInsertSlot(): bool
     {
-        $startTime = $this->request['start_time'];
-        $endTime   = $this->request['end_time'];
-        $date      = $this->request['date'];
+        $startTime  = $this->request['start_time'];
+        $endTime    = $this->request['end_time'];
+//        $scheduleId = $this->request['schedule_id'];  //TODO можно исключить за ненадобностью
+
         /** @var TimeSlot $leftSlot */
         $leftSlot = TimeSlot::query()
-            ->where('date', '=', $date)
+//            ->where('schedule_id', '=', $scheduleId)
             ->where('end_time', '<=', $startTime)
             ->limit(1)
             ->orderBy('end_time', 'DESC')->first();
         /** @var Collection<TimeSlot> $allSlots */
         $allSlots = TimeSlot::query()
-            ->where('date', '=', $date)
             ->orderBy('end_time', 'ASC')->get();
 
         // Если пустой день

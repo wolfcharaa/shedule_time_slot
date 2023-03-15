@@ -9,30 +9,33 @@ return new class extends Migration
     public function up(): void
     {
 
-        Schema::create('time_slots', function (Blueprint $table) {
+        Schema::create('user_types', function (Blueprint $table) {
             $table->id();
-            $table->integer('schedule_id');
-            $table->timestamps();
-            $table->date('date');
-            $table->string('start_time');
-            $table->string('end_time');
+            $table->string('name');
         });
-
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
+            $table->foreignId('user_id')->constrained();
+            $table->date('date');
         });
+        Schema::create('time_slots', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('schedule_id')->constrained();
+            $table->foreignId('user_id')->constrained();
+            $table->timestamps();
+            $table->string('title', 100);
+            $table->string('start_time');
+            $table->string('end_time');
+            $table->text('description');
+        });
+
         Schema::create('user_settings', function (Blueprint $table) {
             $table->id();
             /** резонно будет добавить функцию strftime()|gmstrftime() */
             $table->timestamps();
-            $table->integer('user_id');
-            $table->integer('type_id');
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_type_id')->constrained();
             $table->integer('timezone');
-        });
-        Schema::create('user_types', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
         });
     }
 
@@ -44,9 +47,9 @@ return new class extends Migration
     public function down(): void
     {
 
-        Schema::drop('user_types');
         Schema::drop('user_settings');
-        Schema::drop('schedules');
         Schema::drop('time_slots');
+        Schema::drop('schedules');
+        Schema::drop('user_types');
     }
 };

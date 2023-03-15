@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\TimeSlotController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,5 +21,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/time_slot', [TimeSlotController::class, 'create']);
-Route::post('/time_slot/all', [TimeSlotController::class, 'getAllSlots']);
-
+Route::get('/schedule/date', [ScheduleController::class, 'getAllSlotsDates']);
+Route::get('/schedule', [ScheduleController::class, 'getAllSlots']);
+Route::post('/schedule', [ScheduleController::class, 'create']);

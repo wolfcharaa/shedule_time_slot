@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\DatabaseNotification;
@@ -72,9 +73,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserSetting::class);
     }
-    public function slotSchedule(): HasOne
+    public function schedules(): HasMany
     {
-        return $this->hasOne(Schedule::class);
+        return $this->hasMany(Schedule::class);
     }
 
     /**

@@ -7,6 +7,7 @@ use App\Models\Schedule;
 use App\Models\TimeSlot;
 use App\Models\User;
 use Illuminate\Console\Command;
+use Illuminate\Http\JsonResponse;
 
 class Debug extends Command
 {
@@ -27,8 +28,14 @@ class Debug extends Command
     /**
      * Execute the console command.
      */
-    public function handle(): mixed
+    public function handle(): int
     {
+        $schedule = Schedule::query()->where('date', '=', '2023-03-08')->value('id');
+        $oldTimeSlots = TimeSlot::query()->where('schedule_id', '=', $schedule)->get();
+        foreach ($oldTimeSlots as $data) {
+            echo $data;
+        }
+
         return 0;
     }
 }

@@ -96,4 +96,10 @@ class User extends Authenticatable
         return $this->tokens;
     }
 
+    public static function getUser(): User
+    {
+        /** @var User $user */
+        $user = User::query()->find(1);
+        return $user;
+    }
 }

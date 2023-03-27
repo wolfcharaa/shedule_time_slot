@@ -2,6 +2,7 @@
 
 namespace App\Service\TimeManagement;
 
+use App\Models\Schedule;
 use App\Models\TimeSlot;
 use Illuminate\Http\Request;
 use Ramsey\Collection\Collection;
@@ -19,16 +20,19 @@ class TimeSlotService
     {
         $startTime  = $this->request['start_time'];
         $endTime    = $this->request['end_time'];
+        $queryDate  = $this->request['date'];
 //        $scheduleId = $this->request['schedule_id'];  //TODO можно исключить за ненадобностью
+        $scheduleId = Schedule::query()->where('date','=', $queryDate)->value('id');
 
         /** @var TimeSlot $leftSlot */
         $leftSlot = TimeSlot::query()
-//            ->where('schedule_id', '=', $scheduleId)
+            ->where('schedule_id', '=', $scheduleId)
             ->where('end_time', '<=', $startTime)
             ->limit(1)
             ->orderBy('end_time', 'DESC')->first();
         /** @var Collection<TimeSlot> $allSlots */
         $allSlots = TimeSlot::query()
+            ->where('schedule_id', '=', $scheduleId)
             ->orderBy('end_time', 'ASC')->get();
 
         // Если пустой день
